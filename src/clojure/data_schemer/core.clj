@@ -17,7 +17,7 @@
    declaration
    forms))
 
-(defn => [key & forms]
+#_(defn => [key & forms]
   (loop [declaration {key []}
          current-key key
          forms forms]
@@ -47,14 +47,12 @@
            remaining-forms (rest forms)]
        (recur new-declaration new-key remaining-forms)))))
 
-#_(defmacro => [key & forms]
+(defmacro => [key & forms]
   (loop [declaration {key []}
          current-key key
          forms forms]
     (let [candidate-form (first forms)
           remaining-forms (rest forms)]
-      (println (str "candidate: " candidate-form))
-      (println (str "remaining: " remaining-forms))
       (cond
        (empty? forms) declaration
        (keyword? candidate-form) (recur (initialise declaration candidate-form)
@@ -66,9 +64,9 @@
                                          current-key
                                          `(=>
                                            ~@(first (rest candidate-form))
-                                           ~@()))
+                                           ~@(rest (rest candidate-form))))
                                         current-key
-                                        (conj remaining-forms (list 'has (rest (rest candidate-form)))))
+                                        remaining-forms)
        :else (recur (update
                      declaration
                      current-key
