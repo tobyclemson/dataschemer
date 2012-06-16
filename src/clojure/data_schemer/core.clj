@@ -47,34 +47,92 @@
            remaining-forms (rest forms)]
        (recur new-declaration new-key remaining-forms)))))
 
-(defmacro => [key & forms]
-  (loop [declaration {key []}
-         current-key key
+#_(defmacro => [& forms]
+  (loop [declaration {}
+         current-key :root
          forms forms]
     (let [candidate-form (first forms)
           remaining-forms (rest forms)]
+      (println (str "declaration: " declaration))
+      (println (str "current-key: " current-key))
+      (println (str "forms: " forms))
+      (println (str "candidate-form: " candidate-form))
+      (println (str "remaining-forms: " remaining-forms))
+      (println (str "empty? forms: " (empty? forms)))
+      (println (str "keyword? candidate-form: " (keyword? candidate-form)))
+      (println (str "list? candidate-form: " (list? candidate-form)))
+      (println (str "= candidate-form 'has: " (= candidate-form 'has)))
+      (println "------------")
       (cond
        (empty? forms) declaration
-       (keyword? candidate-form) (recur (initialise declaration candidate-form)
-                                        candidate-form
-                                        remaining-forms)
-       (= (first candidate-form) 'has) (recur
-                                        (update
-                                         declaration
-                                         current-key
-                                         `(=>
-                                           ~@(first (rest candidate-form))
-                                           ~@(rest (rest candidate-form))))
-                                        current-key
-                                        remaining-forms)
-       :else (recur (update
-                     declaration
-                     current-key
-                     `(quote ~candidate-form))
-                    current-key
-                    remaining-forms)))))
+       (keyword? candidate-form)
+       (recur (initialise declaration candidate-form)
+              candidate-form
+              remaining-forms)
+       (= candidate-form 'has)
+       (update declaration current-key `(=> ~@remaining-forms))
+       (list? candidate-form)
+       (recur
+        (update declaration current-key `(=> ~@candidate-form))
+        current-key
+        remaining-forms)
+       :else
+       `(quote ~forms)))))
 
-#_{key (vec (map (fn [form] `(quote ~form)) forms))}
+#_(defmacro => [& forms]
+  (loop [declaration {}
+         current-key :root
+         characteristics []
+         forms forms]
+    (let [candidate-form (first forms)
+          remaining-forms (rest forms)]
+      (println (str "declaration: " declaration))
+      (println (str "current-key: " current-key))
+      (println (str "characteristics: " characteristics))
+      (println (str "forms: " forms))
+      (println (str "candidate-form: " candidate-form))
+      (println (str "remaining-forms: " remaining-forms))
+      (println (str "empty? forms: " (empty? forms)))
+      (println (str "keyword? candidate-form: " (keyword? candidate-form)))
+      (println (str "list? candidate-form: " (list? candidate-form)))
+      (println (str "= candidate-form 'has: " (= candidate-form 'has)))
+      (println "------------")
+      (cond
+       (empty? forms) (assoc declaration current-key characteristics)
+       (keyword? candidate-form) (recur (assoc declaration candidate-form characteristics)
+                                        candidate-form
+                                        characteristics
+                                        remaining-forms)
+       (= candidate-form 'has) `(=> ~@remaining-forms)
+       (list? candidate-form) (recur declaration
+                                     current-key
+                                     (conj characteristics `(=> ~@candidate-form))
+                                     remaining-forms)
+       :else `(quote ~forms)))))
+
+(defmacro => [& forms]
+  (let [candidate-form (first forms)
+        remaining-forms (rest forms)]
+    (println (str "forms: " forms))
+    (println (str "candidate-form: " candidate-form))
+    (println (str "remaining-forms: " remaining-forms))
+    (println (str "first candidate-form: " (first candidate-form)))
+    (println (str "empty? forms: " (empty? forms)))
+    (println (str "keyword? (first candidate-form): " (keyword? (first candidate-form))))
+    (println (str "converted candidate rest: " `(=> ~@(rest candidate-form))))
+    (println (str "converted remaining: " `(=> ~@remaining-forms)))
+    (println "--------------------")
+    (cond
+     (empty? forms) {}
+     (keyword? (first candidate-form)) `(merge (assoc {}
+                                                 ~(first candidate-form)
+                                                 (=> ~@(rest candidate-form)))
+                                               (=> ~@remaining-forms))
+     (= (first candidate-form) 'has) `(merge (=> ~@(rest candidate-form))
+                                             (=> ~@remaining-forms))
+     (list? forms) `(merge (=> ~(first forms)) (=> ~@(rest forms)))
+     :else [`(quote ~forms)])))
+
 
 #_(defn of-type [klass]
   (partial instance? klass))
