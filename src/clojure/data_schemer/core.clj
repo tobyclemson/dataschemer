@@ -113,26 +113,19 @@
 (defmacro => [& forms]
   (let [candidate-form (first forms)
         remaining-forms (rest forms)]
-    (println (str "forms: " forms))
-    (println (str "candidate-form: " candidate-form))
-    (println (str "remaining-forms: " remaining-forms))
-    (println (str "first candidate-form: " (first candidate-form)))
-    (println (str "empty? forms: " (empty? forms)))
-    (println (str "keyword? (first candidate-form): " (keyword? (first candidate-form))))
-    (println (str "converted candidate rest: " `(=> ~@(rest candidate-form))))
-    (println (str "converted remaining: " `(=> ~@remaining-forms)))
-    (println "--------------------")
     (cond
      (empty? forms) {}
-     (keyword? (first candidate-form)) `(merge (assoc {}
-                                                 ~(first candidate-form)
-                                                 (=> ~@(rest candidate-form)))
-                                               (=> ~@remaining-forms))
-     (= (first candidate-form) 'has) `(merge (=> ~@(rest candidate-form))
-                                             (=> ~@remaining-forms))
-     (list? forms) `(merge (=> ~(first forms)) (=> ~@(rest forms)))
+     (list? candidate-form)
+     (cond
+      (keyword? (first candidate-form)) `(merge (assoc {}
+                                                  ~(first candidate-form)
+                                                  (=> ~@(rest candidate-form)))
+                                                (=> ~@remaining-forms))
+      (= (first candidate-form) 'has) `(merge (=> ~@(rest candidate-form))
+                                              (=> ~@remaining-forms))
+      (= (count forms) 1) `(=> ~@candidate-form)
+      :else `(reduce merge (=> ~candidate-form) (=> ~@remaining-forms)))
      :else [`(quote ~forms)])))
-
 
 #_(defn of-type [klass]
   (partial instance? klass))
