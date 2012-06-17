@@ -12,12 +12,23 @@
          nil)))
 
 (deftest entity-with-returns-entity-with-supplied-name
-  (is (= (entity-name-from (entity-with :entity-name empty-declaration))
-         :entity-name)))
+  (let [characteristics ['(characteristic)]
+        child-entities {:child empty-declaration}]
+    (is (= (entity-name-from (entity-with :entity-name characteristics child-entities))
+           :entity-name))))
 
-(deftest entity-with-returns-entity-with-supplied-declaration
-  (is (= (declaration-from (entity-with :entity-name empty-declaration))
-         empty-declaration)))
+(deftest entity-with-returns-entity-with-constructed-declaration
+  (let [characteristics ['(characteristic)]
+        child-entities {:child empty-declaration}]
+    (is (= (declaration-from (entity-with :entity-name characteristics child-entities))
+           (declaration-with characteristics child-entities)))))
+
+(deftest entity-with-can-construct-from-prebuilt-declaration
+  (let [characteristics ['(characteristic)]
+        child-entities {:child empty-declaration}
+        declaration (declaration-with characteristics child-entities)]
+    (is (= (entity-with :name declaration)
+           (entity-with :name characteristics child-entities)))))
 
 (deftest merge-entities-returns-entities-containing-both-supplied-entity-names-when-different
   (let [first-declaration (declaration-with ['(characteristic)] {})

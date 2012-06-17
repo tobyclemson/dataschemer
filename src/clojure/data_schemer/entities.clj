@@ -23,8 +23,11 @@
 (defn entity-name-from [entity]
   (first (entity-names-from entity)))
 
-(defn entity-with [name declaration]
-  {name declaration})
+(defn entity-with
+  ([name declaration]
+     {name declaration})
+  ([name characteristics child-entities]
+      (entity-with name (declaration-with characteristics child-entities))))
 
 (defn merge-entities [first-entity second-entity]
   (merge-with merge-declarations first-entity second-entity))
