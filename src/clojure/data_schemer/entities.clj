@@ -27,7 +27,15 @@
   ([name declaration]
      {name declaration})
   ([name characteristics child-entities]
-      (entity-with name (declaration-with characteristics child-entities))))
+     (entity-with name (declaration-with characteristics child-entities))))
 
 (defn merge-entities [first-entity second-entity]
   (merge-with merge-declarations first-entity second-entity))
+
+(defn entities-with [name characteristics child-entities & rest]
+  (let [current-entity (entity-with name characteristics child-entities)]
+    (cond
+     (empty? rest) current-entity
+     :else (merge-entities
+            current-entity
+            (apply entities-with rest)))))

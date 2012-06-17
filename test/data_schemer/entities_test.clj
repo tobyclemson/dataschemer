@@ -30,6 +30,13 @@
     (is (= (entity-with :name declaration)
            (entity-with :name characteristics child-entities)))))
 
+(deftest entities-with-returns-entities-with-supplied-characteristics-and-child-entities
+  (is (= (entities-with :first ['(first-characteristic)] empty-entity
+                        :second ['(second-characteristic)] empty-entity)
+         (merge-entities
+          (entity-with :first ['(first-characteristic)] empty-entity)
+          (entity-with :second ['(second-characteristic)] empty-entity)))))
+
 (deftest merge-entities-returns-entities-containing-both-supplied-entity-names-when-different
   (let [first-declaration (declaration-with ['(characteristic)] {})
         second-declaration (declaration-with ['(other-characteristic)] {})
