@@ -3,9 +3,6 @@
 
 (def defined-entities (atom {}))
 
-(defn store-entity [name declaration]
-  (swap! defined-entities assoc name declaration))
-
 (def empty-entity {})
 
 (defn declarations-from [entities]
@@ -39,3 +36,18 @@
      :else (merge-entities
             current-entity
             (apply entities-with rest)))))
+
+(defn store-entity [entity]
+  (swap! defined-entities
+         assoc
+         (entity-name-from entity)
+         (declaration-from entity)))
+
+(defn store-entities [entities]
+  (doall
+   (map #(store-entity (select-keys entities [%]))
+        (entity-names-from entities))))
+
+(defmacro with-no-defined-entities [& body]
+  `(with-redefs [defined-entities (atom {})]
+     ~@body))

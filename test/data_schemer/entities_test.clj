@@ -72,3 +72,29 @@
         expected-declaration (merge-declarations first-declaration second-declaration)]
     (is (= (declaration-for :entity merged-entities)
            expected-declaration))))
+
+(deftest store-entity-should-add-entity-to-defined-entities
+  (with-no-defined-entities
+    (let [entity (entity-with :entity ['(characteristic)] empty-entity)]
+      (store-entity entity)
+      (is (= @defined-entities entity)))))
+
+(deftest store-entity-should-accumulate-entities-over-many-calls
+  (with-no-defined-entities
+    (let [first-entity (entity-with :first-entity ['(some-characteristic)] empty-entity)
+          second-entity (entity-with :second-entity ['(other-characteristic)] empty-entity)]
+      (store-entity first-entity)
+      (store-entity second-entity)
+      (is (= @defined-entities (merge-entities first-entity second-entity))))))
+
+(deftest store-entities-should-store-all-supplied-entities
+  (with-no-defined-entities
+    (let [entities (entities-with :first-entity ['(some-characteristic)] empty-entity
+                                  :second-entity ['(other-characteristic)] empty-entity)
+          some-other-entity (entity-with :other-entity [] empty-entity)]
+      (store-entity some-other-entity)
+      (store-entities entities)
+      (is (= @defined-entities
+             (entities-with :first-entity ['(some-characteristic)] empty-entity
+                            :second-entity ['(other-characteristic)] empty-entity
+                            :other-entity [] empty-entity))))))

@@ -1,6 +1,8 @@
 (ns data-schemer.verify
-  (:use data-schemer.entities))
+  (:use data-schemer.entities
+        data-schemer.declarations))
 
 (defn verify [target schema]
-  (let [predicates (schema @defined-entities)]
-    (every? (fn [p] (p target))) predicates))
+  (let [declaration (schema @defined-entities)]
+    (every? (fn [characteristic] ((eval characteristic) target))
+            (characteristics-from declaration))))

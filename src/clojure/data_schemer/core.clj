@@ -39,3 +39,6 @@
    `(merge-declarations
      (=> ~@(first forms))
      (=> ~@(rest forms)))))
+
+(defmacro defentity [& forms]
+  `(store-entity (=> ~@forms)))
