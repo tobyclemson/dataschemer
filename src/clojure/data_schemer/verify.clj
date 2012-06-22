@@ -1,5 +1,6 @@
 (ns data-schemer.verify
-  (:use data-schemer.entities
+  (:use data-schemer.predicates
+        data-schemer.entities
         data-schemer.declarations))
 
 (defn- verify-against-declaration [target declaration]

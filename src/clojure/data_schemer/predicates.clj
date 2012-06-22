@@ -25,4 +25,5 @@
   (fn [target]
     (predicate (count target))))
 
-(defn example [form])
+(defn example [form]
+  (constantly true))
