@@ -32,3 +32,14 @@
     (let [target (Age. (Integer. 15))
           result (verify target :age)]
       (is (= result true)))))
+
+(deftest invalid-tiny-type-with-nested-characteristics-verifies-false
+  (with-no-defined-entities
+    (defentity (:age
+                (of-type Age)
+                (has (:value
+                      (of-type Integer)
+                      (between 10 20)))))
+    (let [target (Age. (Integer. 5))
+          result (verify target :age)]
+      (is (= result false)))))
