@@ -1,15 +1,3 @@
-# data-schemer
+# DataSchemer [![Build Status](https://secure.travis-ci.org/tobyclemson/dataschemer.png?branch=master)](https://travis-ci.org/tobyclemson/dataschemer)
 
-I'm an app. Or maybe I'm a library? I haven't decided yet. 
-
-The choice is up to you!
-
-## Usage
-
-FIXME
-
-## License
-
-Copyright © 2012 FIXME
-
-Distributed under the Eclipse Public License, the same as Clojure.
+It'll get documentation when it's usable!
