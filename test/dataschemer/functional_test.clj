@@ -1,4 +1,4 @@
-(ns data-schemer.functional-test
+(ns dataschemer.functional-test
   (:import (dataschemer.plan
              Plan
              Assortment
@@ -10,9 +10,9 @@
              Style)
            (java.util HashSet))
   (:use clojure.test
-        data-schemer.core
-        data-schemer.verify
-        data-schemer.predicates))
+        dataschemer.core
+        dataschemer.verify
+        dataschemer.predicates))
 
 (defentity
   (:plan
@@ -60,7 +60,7 @@
         receipt-month      (ReceiptMonth. "Aug")
         fulfillment        (Fulfillment. planning-season distribution-group receipt-month)
         plan               (Plan. assortment fulfillment)]
-    (is (= (verify plan :plan 'data-schemer.functional-test) true))))
+    (is (= (verify plan :plan 'dataschemer.functional-test) true))))
 
 (deftest ^:functional verifies-false-for-invalid-plan
   (let [style              (Style. "083809")
@@ -71,4 +71,4 @@
         receipt-month      (ReceiptMonth. "Aug")
         fulfillment        (Fulfillment. planning-season distribution-group receipt-month)
         plan               (Plan. assortment fulfillment)]
-    (is (= (verify plan :plan 'data-schemer.functional-test) false))))
+    (is (= (verify plan :plan 'dataschemer.functional-test) false))))

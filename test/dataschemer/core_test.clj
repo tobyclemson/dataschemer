@@ -1,8 +1,8 @@
-(ns data-schemer.core-test
+(ns dataschemer.core-test
   (:use clojure.test
-        data-schemer.core
-        data-schemer.entities
-        data-schemer.declarations))
+        dataschemer.core
+        dataschemer.entities
+        dataschemer.declarations))
 
 (deftest single-characteristic
   (is (= (=> characteristic)

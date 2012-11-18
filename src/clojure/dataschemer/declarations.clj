@@ -1,4 +1,4 @@
-(ns data-schemer.declarations)
+(ns dataschemer.declarations)
 
 (def empty-declaration [[] {}])
 

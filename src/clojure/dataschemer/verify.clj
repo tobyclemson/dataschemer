@@ -1,7 +1,7 @@
-(ns data-schemer.verify
-  (:use data-schemer.predicates
-        data-schemer.entities
-        data-schemer.declarations))
+(ns dataschemer.verify
+  (:use dataschemer.predicates
+        dataschemer.entities
+        dataschemer.declarations))
 
 (defn- verify-against-declaration [target declaration ns-symbol]
   (and (every? (fn [characteristic]

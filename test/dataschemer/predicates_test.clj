@@ -1,6 +1,6 @@
-(ns data-schemer.predicates-test
+(ns dataschemer.predicates-test
   (:use clojure.test
-        data-schemer.predicates))
+        dataschemer.predicates))
 
 (deftest of-type-returns-true-if-supplied-argument-is-an-instance-of-supplied-type
   (let [predicate (of-type BigDecimal)

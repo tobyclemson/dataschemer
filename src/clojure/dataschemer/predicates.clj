@@ -1,4 +1,4 @@
-(ns data-schemer.predicates)
+(ns dataschemer.predicates)
 
 (defn of-type [klass]
   (partial instance? klass))

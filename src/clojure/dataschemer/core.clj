@@ -1,6 +1,6 @@
-(ns data-schemer.core
-  (:use data-schemer.entities
-        data-schemer.declarations))
+(ns dataschemer.core
+  (:use dataschemer.entities
+        dataschemer.declarations))
 
 (defn- characteristic-level? [forms]
   (let [token (first forms)]

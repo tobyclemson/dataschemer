@@ -1,5 +1,5 @@
-(ns data-schemer.entities
-  (:use data-schemer.declarations))
+(ns dataschemer.entities
+  (:use dataschemer.declarations))
 
 (def defined-entities (atom {}))
 

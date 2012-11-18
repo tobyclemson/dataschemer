@@ -1,9 +1,9 @@
-(ns data-schemer.document-test
+(ns dataschemer.document-test
   (:import [dataschemer Age])
   (:use [clojure.test]
-        [data-schemer.core]
-        [data-schemer.entities]
-        [data-schemer.document]))
+        [dataschemer.core]
+        [dataschemer.entities]
+        [dataschemer.document]))
 
 ;; (defentity
 ;;   (:age
@@ -26,7 +26,7 @@
 (deftest document-chararacteristics-returns-documentation-string-provided-characteristics
   (is (= (document-characteristics
           ['(of-type Integer) '(never :null :negative)]
-          'data-schemer.document-test)
+          'dataschemer.document-test)
          (str
            "- of integer type\n"
            "- never null or negative"))))
@@ -34,5 +34,5 @@
 (deftest document-chararacteristics-returns-documentation-string-provided-characteristic
   (is (= (document-characteristics
           ['(of-type Integer)]
-          'data-schemer.document-test)
+          'dataschemer.document-test)
          (str "- of integer type"))))

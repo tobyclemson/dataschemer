@@ -1,6 +1,6 @@
-(ns data-schemer.declarations-test
+(ns dataschemer.declarations-test
   (:use clojure.test
-        data-schemer.declarations))
+        dataschemer.declarations))
 
 (deftest empty-declaration-has-no-characteristics
   (is (= (characteristics-from empty-declaration) [])))

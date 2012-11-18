@@ -1,7 +1,7 @@
-(ns data-schemer.entities-test
+(ns dataschemer.entities-test
   (:use clojure.test
-        data-schemer.entities
-        data-schemer.declarations))
+        dataschemer.entities
+        dataschemer.declarations))
 
 (deftest empty-entity-has-no-declaration
   (is (= (declaration-from empty-entity)

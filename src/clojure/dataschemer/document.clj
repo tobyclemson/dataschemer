@@ -1,6 +1,6 @@
-(ns data-schemer.document
-  (:use [data-schemer.core]
-        [data-schemer.entities]
+(ns dataschemer.document
+  (:use [dataschemer.core]
+        [dataschemer.entities]
         [clojure.string :only [join]]))
 
 (defn of-type [type]
