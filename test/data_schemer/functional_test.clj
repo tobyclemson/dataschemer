@@ -1,4 +1,4 @@
-(ns data_schemer.functional-test
+(ns data-schemer.functional-test
   (:import (dataschemer.plan
              Plan
              Assortment
@@ -60,7 +60,7 @@
         receipt-month      (ReceiptMonth. "Aug")
         fulfillment        (Fulfillment. planning-season distribution-group receipt-month)
         plan               (Plan. assortment fulfillment)]
-    (is (= (verify plan :plan) true))))
+    (is (= (verify plan :plan 'data-schemer.functional-test) true))))
 
 (deftest ^:functional verifies-false-for-invalid-plan
   (let [style              (Style. "083809")
@@ -71,4 +71,4 @@
         receipt-month      (ReceiptMonth. "Aug")
         fulfillment        (Fulfillment. planning-season distribution-group receipt-month)
         plan               (Plan. assortment fulfillment)]
-    (is (= (verify plan :plan) false))))
+    (is (= (verify plan :plan 'data-schemer.functional-test) false))))

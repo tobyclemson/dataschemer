@@ -11,7 +11,7 @@
     (defentity (:age
                 (of-type Age)))
     (let [target (Age. (Integer. 10))
-          result (verify target :age)]
+          result (verify target :age 'data-schemer.verify-test)]
       (is (= result true)))))
 
 (deftest invalid-tiny-type-verifies-false
@@ -19,7 +19,7 @@
     (defentity (:age
                 (of-type Age)))
     (let [target (Name. "Toby")
-          result (verify target :age)]
+          result (verify target :age 'data-schemer.verify-test)]
       (is (= result false)))))
 
 (deftest valid-tiny-type-with-nested-characteristics-verifies-true
@@ -30,7 +30,7 @@
                       (of-type Integer)
                       (between 10 20)))))
     (let [target (Age. (Integer. 15))
-          result (verify target :age)]
+          result (verify target :age 'data-schemer.verify-test)]
       (is (= result true)))))
 
 (deftest invalid-tiny-type-with-nested-characteristics-verifies-false
@@ -41,5 +41,5 @@
                       (of-type Integer)
                       (between 10 20)))))
     (let [target (Age. (Integer. 5))
-          result (verify target :age)]
+          result (verify target :age 'data-schemer.verify-test)]
       (is (= result false)))))

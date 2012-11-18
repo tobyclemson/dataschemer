@@ -3,9 +3,10 @@
         data-schemer.entities
         data-schemer.declarations))
 
-(defn- verify-against-declaration [target declaration]
+(defn- verify-against-declaration [target declaration ns-symbol]
   (and (every? (fn [characteristic]
-                 ((eval characteristic) target))
+                 ((binding [*ns* (find-ns ns-symbol)]
+                    (eval characteristic)) target))
                (characteristics-from declaration))
        (let [child-entities (child-entities-from declaration)]
          (every? (fn [child-entity-name]
@@ -14,9 +15,10 @@
                      (.. field-for-child-entity (setAccessible true))
                      (verify-against-declaration
                       (. field-for-child-entity (get target))
-                      (child-entity-name child-entities))))
+                      (child-entity-name child-entities)
+                      ns-symbol)))
                  (entity-names-from child-entities)))))
 
-(defn verify [target schema]
+(defn verify [target schema ns-symbol]
   (let [declaration (schema @defined-entities)]
-    (verify-against-declaration target declaration)))
+    (verify-against-declaration target declaration ns-symbol)))
